@@ -161,11 +161,15 @@ export default function Home() {
           <span style={s.mark} aria-hidden="true" />
           <span style={s.brandName}>Thought Record</span>
         </div>
-        <nav style={s.nav} aria-label="Sections">
+        <nav style={s.nav} aria-label="Sections" role="tablist">
           <button
+            type="button"
+            role="tab"
             style={{ ...s.tab, ...(tab === TAB.RECORD ? s.tabOn : {}) }}
             onClick={() => setTab(TAB.RECORD)}
+            aria-label="Write a new thought record"
             aria-current={tab === TAB.RECORD ? "page" : undefined}
+            aria-selected={tab === TAB.RECORD}
           >
             Write
             {mounted && due.length > 0 && (
@@ -173,14 +177,22 @@ export default function Home() {
             )}
           </button>
           <button
+            type="button"
+            role="tab"
             style={{ ...s.tab, ...(tab === TAB.PATTERNS ? s.tabOn : {}) }}
             onClick={() => setTab(TAB.PATTERNS)}
+            aria-label="View saved thought patterns"
             aria-current={tab === TAB.PATTERNS ? "page" : undefined}
+            aria-selected={tab === TAB.PATTERNS}
           >Patterns{mounted && entries.length ? ` (${entries.length})` : ""}</button>
           <button
+            type="button"
+            role="tab"
             style={{ ...s.tab, ...(tab === TAB.FILES ? s.tabOn : {}) }}
             onClick={() => setTab(TAB.FILES)}
+            aria-label="View private attachments"
             aria-current={tab === TAB.FILES ? "page" : undefined}
+            aria-selected={tab === TAB.FILES}
           >Files{mounted && filesCount ? ` (${filesCount})` : ""}</button>
         </nav>
       </header>
@@ -255,7 +267,10 @@ export default function Home() {
         <p style={s.footerText}>
           This is a self-help tool based on cognitive behavioural therapy. It isn&apos;t therapy
           and it can&apos;t diagnose anything. If you&apos;re struggling,{" "}
-          <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer">talking to someone</a> helps.
+          <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" aria-label="Find immediate support at findahelpline.com">talking to someone</a> helps.
+        </p>
+        <p style={s.footerText}>
+          If you might hurt yourself or someone else, or you are not safe, stop here and contact local emergency services or a trusted person now. This app is not crisis care.
         </p>
       </footer>
     </div>
@@ -276,6 +291,7 @@ function Write({ situation, setSituation, thought, setThought, emotions, toggleE
 
       <Field n="1" label="What happened?" hint="Just the facts. Where you were, who was there, what occurred.">
         <textarea
+          aria-label="What happened?"
           style={s.input} rows={2} value={situation}
           onChange={(e) => setSituation(e.target.value)}
           placeholder="I sent a message and they haven't replied in two days."
@@ -284,6 +300,7 @@ function Write({ situation, setSituation, thought, setThought, emotions, toggleE
 
       <Field n="2" label="What went through your mind?" hint="The thought itself, in its own words.">
         <textarea
+          aria-label="What went through your mind?"
           style={{ ...s.input, ...s.inputThought }} rows={4} value={thought}
           onChange={(e) => setThought(e.target.value)}
           placeholder="They're obviously done with me. I always ruin things eventually."
@@ -291,11 +308,13 @@ function Write({ situation, setSituation, thought, setThought, emotions, toggleE
       </Field>
 
       <Field n="3" label="What did you feel?" hint="Pick as many as fit.">
-        <div style={s.chips}>
+        <div style={s.chips} role="group" aria-label="Choose emotions that fit">
           {EMOTIONS.map((e) => (
             <button
               key={e}
+              type="button"
               onClick={() => toggleEmotion(e)}
+              aria-label={`${e}${emotions.includes(e) ? " selected" : " not selected"}`}
               aria-pressed={emotions.includes(e)}
               style={{ ...s.emotionChip, ...(emotions.includes(e) ? s.emotionChipOn : {}) }}
             >{e}</button>
@@ -321,9 +340,9 @@ function Write({ situation, setSituation, thought, setThought, emotions, toggleE
         <FileUploader attachedFiles={attachedFiles} onFilesChange={setAttachedFiles} />
       </Field>
 
-      {error && <p style={s.error} role="alert">{error}</p>}
+      {error && <p style={s.error} role="alert" aria-live="assertive">{error}</p>}
 
-      <button style={s.primary} onClick={analyse} disabled={!thought.trim()}>
+      <button type="button" style={s.primary} onClick={analyse} disabled={!thought.trim()} aria-label="Analyze this thought safely">
         Look at this thought together
       </button>
     </div>
@@ -451,8 +470,8 @@ function Reflect({ analysis, thought, intensity, afterIntensity, setAfterIntensi
         </div>
       )}
 
-      <button style={s.primary} onClick={save}>Keep this record</button>
-      <button style={s.secondary} onClick={reset}>Discard and start over</button>
+      <button type="button" style={s.primary} onClick={save}>Keep this record</button>
+      <button type="button" style={s.secondary} onClick={reset}>Discard and start over</button>
     </div>
   );
 }
@@ -527,6 +546,7 @@ function Patterns({ entries, evidence, pending, selected, onSelect, onDelete, on
                 </div>
               )}
               <button
+                type="button"
                 style={s.deleteBtn}
                 onClick={() => onDelete(e.id)}
                 aria-label={`Delete record from ${new Date(e.savedAt).toLocaleDateString()}`}
@@ -535,8 +555,8 @@ function Patterns({ entries, evidence, pending, selected, onSelect, onDelete, on
           ))}
 
           <div style={s.dataRow}>
-            <button style={s.dataBtn} onClick={onExport}>Export everything</button>
-            <button style={{ ...s.dataBtn, color: "var(--faint)" }} onClick={onDeleteAll}>Delete everything</button>
+            <button type="button" style={s.dataBtn} onClick={onExport}>Export everything</button>
+            <button type="button" style={{ ...s.dataBtn, color: "var(--faint)" }} onClick={onDeleteAll}>Delete everything</button>
           </div>
         </>
       )}
@@ -561,7 +581,9 @@ function EntryAttachments({ entryId }) {
       {files.map((f) => (
         <button
           key={f.id}
+          type="button"
           onClick={() => setActiveFile(f)}
+          aria-label={`Open attachment ${f.name}`}
           style={{
             display: "inline-flex",
             alignItems: "center",
