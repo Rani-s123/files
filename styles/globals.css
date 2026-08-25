@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Karla:wght@300;400;500;600&display=swap');
+
+:root {
+  --night: #151A26;
+  --surface: #1D2434;
+  --surface-lift: #252E42;
+  --edge: #2B3447;
+  --edge-soft: #222A3B;
+
+  --text: #E8EAF0;
+  --muted: #8790A6;
+  --faint: #5C6580;
+
+  --held: #8B9DE8;
+  --held-dim: #2E3654;
+  --warm: #F0B563;
+  --warm-dim: #4A3A22;
+
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-body: 'Karla', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--night);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+button:disabled { opacity: .4; cursor: not-allowed; }
+
+input, textarea, select { font-family: var(--font-body); }
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--held);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection { background: var(--held-dim); }
+::placeholder { color: var(--faint); }
+a { color: var(--held); }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: .5; }
+  50%      { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* Skip link becomes visible only on keyboard focus. */
+a[href="#main"]:focus {
+  left: 12px !important;
+}
+
+/* Larger touch targets on coarse pointers. */
+@media (pointer: coarse) {
+  button { min-height: 44px; }
+}
+
+/* Respect users who prefer more contrast. */
+@media (prefers-contrast: more) {
+  :root {
+    --muted: #A8B0C2;
+    --faint: #8B94AB;
+    --edge: #3D4761;
+  }
+}

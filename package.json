@@ -1,0 +1,8 @@
+{
+  "name": "thought-record",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A private, evidence-based CBT thought record. Your writing never leaves your device unless you choose to send one thought at a time.",
+  "scripts": { "dev": "next dev", "build": "next build", "start": "next start" },
+  "dependencies": { "next": "14.2.35", "react": "18.3.1", "react-dom": "18.3.1" }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Thought Record",
+  "short_name": "Thought Record",
+  "description": "A private, evidence-based CBT thought record. Your writing never leaves your device.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#151A26",
+  "theme_color": "#151A26",
+  "orientation": "portrait"
+}
